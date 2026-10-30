@@ -325,6 +325,8 @@ public class VerticalSingleItemView implements OnScrollChangedListener, OnTouchL
         final WebSettings settings = webView.getSettings();
         settings.setDefaultTextEncodingName(HTTP.UTF_8);
         settings.setJavaScriptEnabled(true);
+        // Cached images are loaded from file://; file access is off by default when targetSdk >= 30
+        settings.setAllowFileAccess(true);
         settings.setDefaultFontSize(fontSize);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         //settings.setRenderPriority(RenderPriority.LOW);

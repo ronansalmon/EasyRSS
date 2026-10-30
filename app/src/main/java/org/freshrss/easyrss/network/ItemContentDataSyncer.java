@@ -41,6 +41,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
+import android.text.Html;
 import android.util.Pair;
 
 import org.freshrss.easyrss.R;
@@ -220,7 +221,9 @@ public class ItemContentDataSyncer extends AbsDataSyncer {
             if (downloadedImageCount < imgList.size()) {
                 final TagNode ret = imgList.get(downloadedImageCount);
                 downloadedImageCount++;
-                return Pair.create(downloadedImageCount, ret.getAttributeByName("src"));
+                // HtmlCleaner keeps entities such as &amp; in attribute values
+                final String src = Html.fromHtml(ret.getAttributeByName("src")).toString();
+                return Pair.create(downloadedImageCount, src);
             } else {
                 return null;
             }

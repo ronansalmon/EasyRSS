@@ -52,7 +52,12 @@ public class ItemIdJSONParser {
                     if ("id".equals(name)) {
                     	String uid = parser.getText();
                     	try {
-                    		uid = Long.toHexString(Long.valueOf(parser.getText()));
+                    		final long id = Long.valueOf(parser.getText());
+                    		uid = String.format("%016x", id);
+                    		// FreshRSS omits timestampUsec: the decimal id is the timestamp in microseconds
+                    		if (itemId.getTimestamp() == 0) {
+                    			itemId.setTimestamp(id);
+                    		}
                     	}
                     	catch (final NumberFormatException nfe) {}
                     	itemId.setUid(uid);
